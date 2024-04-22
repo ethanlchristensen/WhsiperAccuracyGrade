@@ -1,9 +1,0 @@
-name,is_accurate,comments,accuracy
-chunk_0.wav,True,,0.9
-chunk_1.wav,False,eh,0.2
-chunk_2.wav,False,,0.3
-chunk_3.wav,False,Could be better,0.69
-chunk_4.wav,True,"Spot on, word for word!",1.0
-chunk_5.wav,False,,0.95
-chunk_6.wav,False,:(,0.0
-chunk_7.wav,True,Pretty good,0.85

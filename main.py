@@ -36,8 +36,6 @@ def header():
     with header_columns[4]:
         colored_header(label="Comments", description="", color_name="blue-80")
 
-
-print(st.session_state)
 st.set_page_config(page_title="Whisper Test", layout="wide")
 header()
 

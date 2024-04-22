@@ -8,6 +8,10 @@ load_dotenv()
 client = openai.OpenAI()
 audio_chunk_transcriptions = {}
 
+if len(os.listdir('audio_chunks')) == 0:
+    print('No audio chunks to transcibe. Exiting.')
+    exit(1)
+
 for audio_file_name in os.listdir('audio_chunks'):
     print(f'transcribing {audio_file_name}')
     

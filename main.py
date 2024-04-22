@@ -2,13 +2,12 @@ from streamlit_extras.colored_header import colored_header
 import streamlit as st
 import pandas as pd
 import datetime
+import shutil
 import json
 import os
 
 COLUMN_SPEC = [0.6, 1, 1, 0.5, 1]
-SCROLLABLE_TEXTBOX_HEIGHT = 100
 SUBMIT = None
-
 
 def header():
     global SUBMIT
@@ -84,8 +83,12 @@ if SUBMIT:
                     file_data['is_accurate'] = st.session_state[key]
                 elif 'accuracy' in key:
                     file_data['accuracy'] = st.session_state[key]
+        file_data['whisper_transcript'] = whisper_transcripts[audio_file_name]
         out_data.append(file_data)
     df = pd.DataFrame(out_data)
-    df.to_csv(f'results\\{current_datetime}_result.csv', index=False)
-        
+    os.makedirs(f'results\\{current_datetime}')
+    df.to_csv(f'results\\{current_datetime}\\{current_datetime}_result.csv', index=False)
+    zip_path = shutil.make_archive(f'{current_datetime}_audio_chunks', 'zip', 'audio_chunks')
+    shutil.move(zip_path, os.path.join(f'results\\{current_datetime}', f'{current_datetime}_audio_chunks.zip'))
+    shutil.copy('audio_data\\chunk_transcriptions.json', f'results\\{current_datetime}\\chunk_transcriptions.json')
     

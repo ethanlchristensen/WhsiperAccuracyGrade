@@ -5,10 +5,9 @@ import datetime
 import json
 import os
 
-COLUMN_SPEC = [0.6, 1, 1, 1, 0.5, 1]
+COLUMN_SPEC = [0.6, 1, 1, 0.5, 1]
 SCROLLABLE_TEXTBOX_HEIGHT = 100
 SUBMIT = None
-
 
 
 def header():
@@ -30,15 +29,11 @@ def header():
         colored_header(label="Chunk Audio", description="", color_name="blue-40")
     with header_columns[2]:
         colored_header(
-            label="Google Transcription", description="", color_name="blue-50"
-        )
-    with header_columns[3]:
-        colored_header(
             label="Whisper Transcription", description="", color_name="blue-60"
         )
-    with header_columns[4]:
+    with header_columns[3]:
         colored_header(label="Accurate?", description="", color_name="blue-70")
-    with header_columns[5]:
+    with header_columns[4]:
         colored_header(label="Comments", description="", color_name="blue-80")
 
 
@@ -47,7 +42,7 @@ st.set_page_config(page_title="Whisper Test", layout="wide")
 header()
 
 containers = []
-google_transcripts = json.loads(open("audio_data\\chunk_transcriptions.json", "r").read())
+whisper_transcripts = json.loads(open("audio_data\\chunk_transcriptions.json", "r").read())
 
 for audio_file_name in os.listdir("audio_chunks"):
     container = st.container()
@@ -59,11 +54,8 @@ for audio_file_name in os.listdir("audio_chunks"):
     with columns[1]:
         st.audio(data=open(f"audio_chunks\\{audio_file_name}", "rb").read())
     with columns[2]:
-        st.markdown(f"```{google_transcripts[audio_file_name]}```")
+        st.markdown(f"```{whisper_transcripts[audio_file_name]}```")
     with columns[3]:
-        whisper_text = "<whisper transcription place holder.>"
-        st.markdown(f"```{whisper_text}```")
-    with columns[4]:
         st.toggle(label="Accurate", key=f"accurate_{audio_file_name}")
         st.number_input(
             label="% Accurate",
@@ -72,10 +64,9 @@ for audio_file_name in os.listdir("audio_chunks"):
             max_value=1.00,
             step=0.01,
         )
-    with columns[5]:
+    with columns[4]:
         st.text_area(
-            label="Comments",
-            label_visibility="hidden",
+            label="Comment / Justification",
             key=f"comments_{audio_file_name}",
         )
 
